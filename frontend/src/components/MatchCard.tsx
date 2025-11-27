@@ -8,17 +8,6 @@ interface MatchCardProps {
   index?: number;
 }
 
-// Helper function to get football images
-const getFootballImage = (teamName: string) => {
-  const images = [
-    'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=400&h=300&fit=crop',
-  ];
-  return images[teamName.length % images.length];
-};
-
 export default function MatchCard({ match, index = 0 }: MatchCardProps) {
   const isLive = match.status === 'LIVE';
   const isFinished = match.status === 'FINISHED';

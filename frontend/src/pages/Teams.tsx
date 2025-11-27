@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Users, MapPin, Calendar } from 'lucide-react';
+import { Users, MapPin } from 'lucide-react';
 import { apiService } from '../services/api';
 
 export default function Teams() {
