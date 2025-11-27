@@ -82,60 +82,87 @@ export default function LeagueDetails() {
       {/* Content */}
       {activeTab === 'table' && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           className="card overflow-x-auto"
         >
           {tableLoading ? (
             <div className="skeleton h-96"></div>
           ) : (
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-200 dark:border-gray-700">
-                  <th className="text-right p-4">المركز</th>
-                  <th className="text-right p-4">الفريق</th>
-                  <th className="text-center p-4">ل</th>
-                  <th className="text-center p-4">ف</th>
-                  <th className="text-center p-4">ت</th>
-                  <th className="text-center p-4">خ</th>
-                  <th className="text-center p-4">له</th>
-                  <th className="text-center p-4">عليه</th>
-                  <th className="text-center p-4">ف</th>
-                  <th className="text-center p-4">النقاط</th>
-                </tr>
-              </thead>
-              <tbody>
-                {table.map((entry) => (
-                  <tr
-                    key={entry.team.id}
-                    className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
-                  >
-                    <td className="p-4 font-bold">{entry.position}</td>
-                    <td className="p-4">
-                      <div className="flex items-center space-x-2 space-x-reverse">
-                        <img
-                          src={entry.team.crest || 'https://via.placeholder.com/30'}
-                          alt={entry.team.name}
-                          className="w-8 h-8 object-contain"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'https://via.placeholder.com/30';
-                          }}
-                        />
-                        <span>{entry.team.name}</span>
-                      </div>
-                    </td>
-                    <td className="p-4 text-center">{entry.playedGames}</td>
-                    <td className="p-4 text-center">{entry.won}</td>
-                    <td className="p-4 text-center">{entry.draw}</td>
-                    <td className="p-4 text-center">{entry.lost}</td>
-                    <td className="p-4 text-center">{entry.goalsFor}</td>
-                    <td className="p-4 text-center">{entry.goalsAgainst}</td>
-                    <td className="p-4 text-center">{entry.goalDifference}</td>
-                    <td className="p-4 text-center font-bold text-primary-600">{entry.points}</td>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[800px]">
+                <thead>
+                  <tr className="border-b-2 border-primary-600 dark:border-primary-500 bg-gradient-to-r from-primary-50 to-red-50 dark:from-primary-900/20 dark:to-red-900/20">
+                    <th className="text-right p-4 font-black text-gray-900 dark:text-white">المركز</th>
+                    <th className="text-right p-4 font-black text-gray-900 dark:text-white">الفريق</th>
+                    <th className="text-center p-4 font-black text-gray-900 dark:text-white">ل</th>
+                    <th className="text-center p-4 font-black text-gray-900 dark:text-white">ف</th>
+                    <th className="text-center p-4 font-black text-gray-900 dark:text-white">ت</th>
+                    <th className="text-center p-4 font-black text-gray-900 dark:text-white">خ</th>
+                    <th className="text-center p-4 font-black text-gray-900 dark:text-white">له</th>
+                    <th className="text-center p-4 font-black text-gray-900 dark:text-white">عليه</th>
+                    <th className="text-center p-4 font-black text-gray-900 dark:text-white">ف</th>
+                    <th className="text-center p-4 font-black text-primary-600 dark:text-primary-400">النقاط</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {table.map((entry, idx) => (
+                    <motion.tr
+                      key={entry.team.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.05 }}
+                      className={`border-b border-gray-200 dark:border-gray-700 hover:bg-gradient-to-r hover:from-primary-50/50 hover:to-red-50/50 dark:hover:from-primary-900/10 dark:hover:to-red-900/10 transition-all duration-200 ${
+                        entry.position <= 3 ? 'bg-gradient-to-r from-yellow-50/50 to-orange-50/50 dark:from-yellow-900/10 dark:to-orange-900/10' : ''
+                      }`}
+                    >
+                      <td className="p-4 font-black text-lg">
+                        <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full ${
+                          entry.position === 1 ? 'bg-yellow-400 text-yellow-900' :
+                          entry.position === 2 ? 'bg-gray-300 text-gray-900' :
+                          entry.position === 3 ? 'bg-orange-400 text-orange-900' :
+                          'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+                        }`}>
+                          {entry.position}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        <div className="flex items-center space-x-3 space-x-reverse">
+                          <motion.img
+                            src={entry.team.crest || `https://ui-avatars.com/api/?name=${encodeURIComponent(entry.team.name)}&background=dc2626&color=fff&size=64`}
+                            alt={entry.team.name}
+                            className="w-10 h-10 object-contain bg-white dark:bg-gray-700 rounded-full p-1 shadow-md"
+                            whileHover={{ scale: 1.2, rotate: 5 }}
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(entry.team.name)}&background=dc2626&color=fff&size=64`;
+                            }}
+                          />
+                          <span className="font-bold text-gray-900 dark:text-white">{entry.team.name}</span>
+                        </div>
+                      </td>
+                      <td className="p-4 text-center font-semibold">{entry.playedGames}</td>
+                      <td className="p-4 text-center font-semibold text-green-600 dark:text-green-400">{entry.won}</td>
+                      <td className="p-4 text-center font-semibold text-yellow-600 dark:text-yellow-400">{entry.draw}</td>
+                      <td className="p-4 text-center font-semibold text-red-600 dark:text-red-400">{entry.lost}</td>
+                      <td className="p-4 text-center font-semibold">{entry.goalsFor}</td>
+                      <td className="p-4 text-center font-semibold">{entry.goalsAgainst}</td>
+                      <td className={`p-4 text-center font-bold ${
+                        entry.goalDifference > 0 ? 'text-green-600 dark:text-green-400' :
+                        entry.goalDifference < 0 ? 'text-red-600 dark:text-red-400' :
+                        'text-gray-600 dark:text-gray-400'
+                      }`}>
+                        {entry.goalDifference > 0 ? '+' : ''}{entry.goalDifference}
+                      </td>
+                      <td className="p-4 text-center">
+                        <span className="inline-block bg-gradient-to-r from-primary-600 to-red-600 text-white font-black text-lg px-4 py-2 rounded-lg shadow-lg">
+                          {entry.points}
+                        </span>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </motion.div>
       )}

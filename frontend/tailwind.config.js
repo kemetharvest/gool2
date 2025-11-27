@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Cairo', 'Tajawal', 'sans-serif'],
+        sans: ['Almarai', 'IBM Plex Sans Arabic', 'Cairo', 'sans-serif'],
       },
       colors: {
         primary: {

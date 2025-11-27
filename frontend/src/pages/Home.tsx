@@ -29,31 +29,56 @@ export default function Home() {
   ];
 
   return (
-    <div>
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
+    <div className="max-w-7xl mx-auto">
+      <motion.div
+        initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-4xl font-bold mb-8 text-center"
+        className="text-center mb-12"
       >
-        يلا جول - YallaGoal
-      </motion.h1>
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2, type: "spring" }}
+          className="text-5xl md:text-6xl font-black mb-4 gradient-text"
+        >
+          يلا جول
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="text-xl text-gray-600 dark:text-gray-400"
+        >
+          YallaGoal - متابعة مباشرة لجميع المباريات
+        </motion.p>
+      </motion.div>
 
       {/* Tabs */}
-      <div className="flex justify-center mb-8 space-x-2 space-x-reverse">
-        {tabs.map((tab) => (
-          <button
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="flex justify-center mb-10 space-x-3 space-x-reverse"
+      >
+        {tabs.map((tab, idx) => (
+          <motion.button
             key={tab.key}
             onClick={() => setSelectedDay(tab.key)}
-            className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 + idx * 0.1 }}
+            className={`px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 ${
               selectedDay === tab.key
-                ? 'bg-primary-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                ? 'bg-gradient-to-r from-primary-600 to-red-600 text-white shadow-xl scale-105'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-md'
             }`}
           >
             {tab.label}
-          </button>
+          </motion.button>
         ))}
-      </div>
+      </motion.div>
 
       {/* Matches */}
       {isLoading ? (
