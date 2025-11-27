@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Moon, Sun, Menu } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { motion } from 'framer-motion';
 

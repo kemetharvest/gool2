@@ -31,7 +31,7 @@ export default function MatchDetails() {
   });
 
   // Real-time updates
-  const { lastMessage } = useWebSocket(undefined, (message) => {
+  useWebSocket(undefined, (message) => {
     if (message.type === 'match_update' && message.matchId === matchId) {
       // Refetch match data
       window.location.reload(); // Simple approach, could be optimized

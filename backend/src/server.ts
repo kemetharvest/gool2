@@ -26,15 +26,25 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Start WebSocket server
-const wsServer = new MatchSocketServer(config.wsPort);
-setSocketServer(wsServer);
+// Start WebSocket server (only in non-serverless environments)
+let wsServer: MatchSocketServer | null = null;
+if (process.env.VERCEL !== '1') {
+  wsServer = new MatchSocketServer(config.wsPort);
+  setSocketServer(wsServer);
+}
 
-// Start HTTP server
-app.listen(config.port, () => {
-  console.log(`🚀 YallaGoal Backend Server running on http://localhost:${config.port}`);
-  console.log(`📡 WebSocket Server running on ws://localhost:${config.wsPort}`);
-});
+// Start HTTP server (only if not on Vercel)
+if (process.env.VERCEL !== '1') {
+  app.listen(config.port, () => {
+    console.log(`🚀 YallaGoal Backend Server running on http://localhost:${config.port}`);
+    if (wsServer) {
+      console.log(`📡 WebSocket Server running on ws://localhost:${config.wsPort}`);
+    }
+  });
+}
+
+// Export for Vercel
+export default app;
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
